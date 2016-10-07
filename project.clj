@@ -8,11 +8,19 @@
                  [re-com "0.8.3"]
                  [secretary "1.2.3"]
                  [compojure "1.5.0"]
+                 [org.danielsz/system "0.3.1"]
                  [yogthos/config "0.8"]
+                 [ring/ring-defaults "0.2.1"]
+                 [ring-middleware-format "0.7.0"]
+                 [figwheel-sidecar "0.5.7"]
+                 [http-kit "2.2.0"]
+                 [environ "1.1.0"]
                  [hiccup "1.0.5"]
                  [ring "1.4.0"]]
 
-  :plugins [[lein-cljsbuild "1.1.4"]]
+  :plugins [[lein-cljsbuild "1.1.4"]
+            [lein-figwheel "0.5.7"]
+            [lein-environ "1.1.0"]]
 
   :min-lein-version "2.5.3"
 
@@ -20,13 +28,13 @@
 
   :clean-targets ^{:protect false} ["resources/public/js/compiled" "target"]
 
-  :figwheel {:css-dirs ["resources/public/css"]
-             :ring-handler book-librarj.handler/dev-handler}
+  :figwheel {:css-dirs ["resources/public/css"]}
 
   :profiles
   {:dev
    {:dependencies []
-    :plugins      [[lein-figwheel "0.5.7"]]}}
+    :plugins      [[lein-figwheel "0.5.7"]]
+    :source-paths ["src" "dev"]}}
 
   :cljsbuild
   {:builds
@@ -48,7 +56,7 @@
                     :closure-defines {goog.DEBUG false}
                     :pretty-print    false}}]}
 
-  :main book-librarj.server
-  :aot [book-librarj.server]
+  :main book-librarj.core
+  :aot [book-librarj.core]
   :uberjar-name "book-librarj.jar")
 

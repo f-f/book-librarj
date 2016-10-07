@@ -20,3 +20,20 @@
   :books
   (fn [db _]
     (:books db)))
+
+(reg-sub
+  :current
+  (fn [db _]
+    (:current db)))
+
+(reg-sub
+  :books-map
+  (fn [db _]
+    (:books-map db)))
+
+(reg-sub
+  :current-book
+  :<- [:books-map]
+  :<- [:current]
+  (fn [[books-map current] _]
+    (get books-map current)))

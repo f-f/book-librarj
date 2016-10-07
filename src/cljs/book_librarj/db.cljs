@@ -3,5 +3,7 @@
 (def default-db
   {:loading?    true
    :error-text? ""
-   :books       []})
+   :books       []
+   :books-map   {}
+   :current     nil})
 

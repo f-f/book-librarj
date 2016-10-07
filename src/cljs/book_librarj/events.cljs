@@ -17,7 +17,10 @@
 (reg-event-fx
   :good-http-result
   (fn [{:keys [db]} [_ books]]
-    {:db (assoc db :books books)
+    {:db (assoc db :books books
+                   :books-map (->> books
+                                   (mapcat #(list (str (:id %)) %))
+                                   (apply hash-map)))
      :dispatch [:set-active-panel :books-list]}))
 
 (reg-event-fx
@@ -25,6 +28,11 @@
   (fn [{:keys [db]} _]
     {:db (assoc db :error-text "There was an error while fetching the data.")
      :dispatch [:set-active-panel :error]}))
+
+(reg-event-db
+  :set-current-book
+  (fn [db [_ book-id]]
+    (assoc db :current book-id)))
 
 (reg-event-db
  :set-active-panel

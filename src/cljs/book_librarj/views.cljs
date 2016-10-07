@@ -5,18 +5,6 @@
 
 ;; home
 
-(defn home-title []
-  (let [name (subscribe [:name])]
-    (fn []
-      [rc/title
-       :label (str "Hello from " @name ". This is the Home Page.")
-       :level :level1])))
-
-(defn link-to-about-page []
-  [rc/hyperlink-href
-   :label "go to About Page"
-   :href "#/about"])
-
 (defn books-list []
   (let [books (subscribe [:books])]
     (fn []
@@ -26,31 +14,44 @@
          [:div.col-md-3
           [:a {:href (str "#/book/" id)}
            [:img.img-thumbnail
-            {:src (str "http://siili-book-library.s3-eu-west-1.amazonaws.com/"
-                       image)}]]])])))
+            {:src image}]]])])))
 
 (defn home-panel []
   [rc/v-box
    :gap "1em"
    :children [[books-list]]])
 
-
-;; about
-
-(defn about-title []
-  [rc/title
-   :label "This is the About Page."
-   :level :level1])
+;; book details
 
 (defn link-to-home-page []
   [rc/hyperlink-href
-   :label "go to Home Page"
+   :label "back to Home"
    :href "#/"])
+
+(defn book-image [image]
+  [:img.img-thumbnail
+   {:src image}])
+
+(defn book-description [{:keys [id title publisher]}]
+  [rc/v-box
+   :gap "1em"
+   :children [[rc/title
+               :level :level1
+               :label title]
+              [:p [:b "Publisher: "] publisher]]])
+
+(defn book-details []
+  (let [current (subscribe [:current-book])]
+    (fn []
+      [:div.row
+       [:div.col-md-6 [book-image (:image @current)]]
+       [:div.col-md-6 [book-description @current]]])))
 
 (defn about-panel []
   [rc/v-box
    :gap "1em"
-   :children [[about-title] [link-to-home-page]]])
+   :children [[link-to-home-page]
+              [book-details]]])
 
 ;; error
 

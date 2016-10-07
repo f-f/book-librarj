@@ -16,14 +16,12 @@
 
 (defn app-routes []
   (secretary/set-config! :prefix "#")
-  ;; --------------------
-  ;; define routes here
+
   (defroute "/" []
     (dispatch [:set-active-panel :books-list]))
 
   (defroute "/book/:book" [book]
-    (dispatch [:set-active-panel :book-detail]))
+    (dispatch [:set-active-panel :book-detail])
+    (dispatch [:set-current-book book]))
 
-
-  ;; --------------------
   (hook-browser-navigation!))

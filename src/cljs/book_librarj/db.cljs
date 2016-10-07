@@ -1,4 +1,7 @@
 (ns book-librarj.db)
 
 (def default-db
-  {:name "re-frame"})
+  {:loading?    true
+   :error-text? ""
+   :books       []})
+

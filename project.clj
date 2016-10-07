@@ -15,6 +15,8 @@
                  [org.clojure/java.jdbc "0.6.2-alpha3"]
                  [org.postgresql/postgresql "9.4.1211"]
                  [figwheel-sidecar "0.5.7"]
+                 [cljs-ajax "0.5.8"]
+                 [day8.re-frame/http-fx "0.0.4"]
                  [http-kit "2.2.0"]
                  [environ "1.1.0"]
                  [hiccup "1.0.5"]

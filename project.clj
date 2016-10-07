@@ -12,6 +12,8 @@
                  [yogthos/config "0.8"]
                  [ring/ring-defaults "0.2.1"]
                  [ring-middleware-format "0.7.0"]
+                 [org.clojure/java.jdbc "0.6.2-alpha3"]
+                 [org.postgresql/postgresql "9.4.1211"]
                  [figwheel-sidecar "0.5.7"]
                  [http-kit "2.2.0"]
                  [environ "1.1.0"]
@@ -32,7 +34,10 @@
 
   :profiles
   {:dev
-   {:dependencies []
+   {:env {:db-name "booklibrarj"
+          :db-host "127.0.0.1"
+          :db-user "testuser"
+          :db-pass "testpass"}
     :plugins      [[lein-figwheel "0.5.7"]]
     :source-paths ["src" "dev"]}}
 

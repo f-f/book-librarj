@@ -1,0 +1,6 @@
+psql --host=localhost --port 5432 --username=testuser --password -c "CREATE DATABASE booklibrarj"
+
+psql --host=localhost --port 5432 --username=testuser --password --dbname=booklibrarj -c "CREATE TABLE books (id serial PRIMARY KEY, image VARCHAR (255) NOT NULL, title VARCHAR (255) NOT NULL, publisher VARCHAR (255));"
+
+cat books.csv | psql --host=localhost --port=5432 --username=testuser --password --dbname=booklibrarj -c "COPY books FROM stdin DELIMITER ',' CSV;"
+

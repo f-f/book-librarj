@@ -22,6 +22,10 @@
           (include-css "http://fonts.googleapis.com/css?family=Roboto+Condensed:400,300")
           (include-css "/css/style.css")]
          [:body
+          [:div.jumbotron
+           [:div.container
+            [:h1 "Book Librarj"]
+            [:p "TODO: description"]]]
           [:div#app.container
            [:div.loading
             [:i.fa.fa-4x.fa-circle-o-notch.fa-spin]]]

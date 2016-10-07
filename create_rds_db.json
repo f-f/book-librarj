@@ -1,0 +1,96 @@
+{
+  "AWSTemplateFormatVersion" : "2010-09-09",
+
+  "Description" : "PostgreSQL RDS Template",
+
+  "Parameters": {
+    "DBName": {
+      "Default": "booklibrarj2",
+      "Description" : "Clojure Hackathon DB",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "64",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+    },
+    "DBUser": {
+      "NoEcho": "true",
+      "Description" : "The database admin account username",
+      "Type": "String",
+      "MinLength": "1",
+      "MaxLength": "16",
+      "AllowedPattern" : "[a-zA-Z][a-zA-Z0-9]*",
+      "ConstraintDescription" : "must begin with a letter and contain only alphanumeric characters."
+    },
+    "DBPassword": {
+      "NoEcho": "true",
+      "Description" : "The database admin account password",
+      "Type": "String",
+      "MinLength": "8",
+      "MaxLength": "41",
+      "AllowedPattern" : "[a-zA-Z0-9]*",
+      "ConstraintDescription" : "must contain only alphanumeric characters."
+    }
+  },
+  "Mappings" : {
+    "VPC" : {
+      "single-vpc-pub-priv" : { "Id" : "vpc-fc8aec99" }
+    }
+  },
+  "Resources" : {
+    "MyVPC": {
+      "Type" : "AWS::EC2::VPC",
+        "Properties" : {
+          "CidrBlock" : "20.0.0.0/16"
+        }
+    },
+    "MyDBEC2SecurityGroup": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties" : {
+        "GroupDescription" : "Frontend Access",
+        "VpcId"            : { "Fn::FindInMap" : [ "VPC", "single-vpc-pub-priv", "Id" ] },
+        "SecurityGroupIngress" : [{
+          "IpProtocol" : "tcp",
+          "FromPort"   : 5432,
+          "ToPort"     : 5432,
+          "CidrIp"     : "20.0.0.0/16"
+        }]
+      }
+    },
+    "MyRDSParamGroup": {
+        "Type": "AWS::RDS::DBParameterGroup",
+        "Properties": {
+            "Description": "Database Parameter Group + pg_stat_statements",
+            "Family": "postgres9.5",
+             "Parameters": {
+                "shared_preload_libraries": "pg_stat_statements"
+            }
+        }
+    },
+    "MyDB" : {
+      "Type" : "AWS::RDS::DBInstance",
+      "Properties" : {
+        "DBName" : { "Ref" : "DBName" },
+        "AllocatedStorage" : "5",
+        "DBInstanceClass" : "db.t2.small",
+        "Engine" : "postgres",
+        "EngineVersion" : "9.5.2",
+        "MasterUsername" : { "Ref" : "DBUser" },
+        "MasterUserPassword" : { "Ref" : "DBPassword" },
+        "DBParameterGroupName" : { "Ref" : "MyRDSParamGroup" },
+        "VPCSecurityGroups" : [ { "Fn::GetAtt" : [ "MyDBEC2SecurityGroup", "GroupId" ] } ]
+      }
+    }
+  },
+  "Outputs" : {
+    "JDBCConnectionString": {
+      "Description" : "JDBC connection string for the database",
+      "Value" : { "Fn::Join": [ "", [ "jdbc:mysql://",
+                                      { "Fn::GetAtt": [ "MyDB", "Endpoint.Address" ] },
+                                      ":",
+                                      { "Fn::GetAtt": [ "MyDB", "Endpoint.Port" ] },
+                                      "/",
+                                      { "Ref": "DBName" }]]}
+    }
+  }
+}

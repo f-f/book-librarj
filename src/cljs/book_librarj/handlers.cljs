@@ -1,13 +1,13 @@
 (ns book-librarj.handlers
-    (:require [re-frame.core :as re-frame]
+    (:require [re-frame.core :refer [reg-event-db]]
               [book-librarj.db :as db]))
 
-(re-frame/reg-event-db
+(reg-event-db
  :initialize-db
  (fn  [_ _]
    db/default-db))
 
-(re-frame/reg-event-db
+(reg-event-db
  :set-active-panel
  (fn [db [_ active-panel]]
    (assoc db :active-panel active-panel)))

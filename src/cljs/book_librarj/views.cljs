@@ -1,12 +1,12 @@
 (ns book-librarj.views
-    (:require [re-frame.core :as re-frame]
+    (:require [re-frame.core :refer [subscribe]]
               [re-com.core :as re-com]))
 
 
 ;; home
 
 (defn home-title []
-  (let [name (re-frame/subscribe [:name])]
+  (let [name (subscribe [:name])]
     (fn []
       [re-com/title
        :label (str "Hello from " @name ". This is the Home Page.")
@@ -43,17 +43,17 @@
 
 ;; main
 
-(defmulti panels identity)
-(defmethod panels :home-panel [] [home-panel])
-(defmethod panels :about-panel [] [about-panel])
-(defmethod panels :default [] [:div])
+(defmulti  panels identity)
+(defmethod panels :books-list  [] [home-panel])
+(defmethod panels :book-detail [] [about-panel])
+(defmethod panels :default     [] [:div "TODO"])
 
 (defn show-panel
   [panel-name]
   [panels panel-name])
 
 (defn main-panel []
-  (let [active-panel (re-frame/subscribe [:active-panel])]
+  (let [active-panel (subscribe [:active-panel])]
     (fn []
       [re-com/v-box
        :height "100%"

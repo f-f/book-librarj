@@ -9,6 +9,7 @@
                  [secretary "1.2.3"]
                  [compojure "1.5.0"]
                  [yogthos/config "0.8"]
+                 [hiccup "1.0.5"]
                  [ring "1.4.0"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
@@ -25,9 +26,7 @@
   :profiles
   {:dev
    {:dependencies []
-
-    :plugins      [[lein-figwheel "0.5.7"]]
-    }}
+    :plugins      [[lein-figwheel "0.5.7"]]}}
 
   :cljsbuild
   {:builds
@@ -47,15 +46,9 @@
                     :output-to       "resources/public/js/compiled/app.js"
                     :optimizations   :advanced
                     :closure-defines {goog.DEBUG false}
-                    :pretty-print    false}}
-
-    ]}
+                    :pretty-print    false}}]}
 
   :main book-librarj.server
-
   :aot [book-librarj.server]
+  :uberjar-name "book-librarj.jar")
 
-  :uberjar-name "book-librarj.jar"
-
-  :prep-tasks [["cljsbuild" "once" "min"] "compile"]
-  )

@@ -3,3 +3,7 @@
 /*-init.clj
 /resources/public/js/compiled
 out
+.idea/*
+.lein-repl-history
+.nrepl-port
+*.iml

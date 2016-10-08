@@ -9,20 +9,31 @@
     [ring.middleware.defaults :refer [wrap-defaults api-defaults]]))
 
 (defn update-image-link [book]
-  (update
-    book
-    :image
-    #(str "http://siili-book-library.s3-eu-west-1.amazonaws.com/" %)))
+  (let [base-url "http://siili-book-library.s3-eu-west-1.amazonaws.com/"
+        image-name (:image book)
+        image-url (str base-url image-name)
+        thumbnail-url (str base-url "thumbs/" image-name)]
+    (assoc book
+      :image image-url
+      :thumbnail thumbnail-url)))
 
-(defn books
+(defn get-books
   "Return all the books in the database"
   [_]
   (->> (j/query (:db system) ["select * from books"])
        (map update-image-link)))
 
+(defn search
+  "Search in the titles for the provided keyword"
+  [s]
+  (j/query
+    (:db system)
+    ["SELECT * FROM books WHERE to_tsvector(title) @@ to_tsquery(?);" s]))
+
 (defroutes routes
   (GET "/" [] index)
-  (GET "/books" [] books)
+  (GET "/books" [] get-books)
+  (GET "/search/:s" [s] search)
   (route/resources "/")
   (route/not-found "404"))
 

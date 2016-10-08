@@ -9,12 +9,12 @@
   (let [books (subscribe [:books])]
     (fn []
       [:div.row
-       (for [{:keys [title image id]} @books]
+       (for [{:keys [title thumbnail id]} @books]
          ^{:key id}
          [:div.col-md-3
           [:a {:href (str "#/book/" id)}
            [:img.img-thumbnail
-            {:src image}]]])])))
+            {:src thumbnail}]]])])))
 
 (defn home-panel []
   [rc/v-box

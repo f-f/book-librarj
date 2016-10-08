@@ -24,7 +24,9 @@
 
   :plugins [[lein-cljsbuild "1.1.4"]
             [lein-figwheel "0.5.7"]
-            [lein-environ "1.1.0"]]
+            [lein-environ "1.1.0"]
+            [juxt/lein-dockerstalk "0.1.0"]
+            [lein-zip "0.1.1"]]
 
   :min-lein-version "2.5.3"
 
@@ -62,6 +64,21 @@
                     :optimizations   :advanced
                     :closure-defines {goog.DEBUG false}
                     :pretty-print    false}}]}
+
+  :zip ["Dockerfile"
+        "Dockerrun.aws.json"
+        "project.clj"
+        ".ebextensions"
+        "src"
+        "resources"]
+
+  :aws {:access-key "YOUR-ACCESS-KEY"
+        :secret-key "YOUR-SECRET-KEY"
+        :beanstalk {:environments [{:name "book-librarj"
+                                    :cname-prefix "book-librarj"}]
+                    :s3-bucket "YOUR-BUILDS-BUCKET-NAME"
+                    :stack-name "64bit Amazon Linux 2016.03 v2.1.6 running Docker 1.11.2"
+                    :region "eu-west-1"}}
 
   :main book-librarj.core
   :aot [book-librarj.core]

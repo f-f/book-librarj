@@ -43,7 +43,9 @@
           :db-user "testuser"
           :db-pass "testpass"}
     :plugins      [[lein-figwheel "0.5.7"]]
-    :source-paths ["src" "dev"]}}
+    :source-paths ["src" "dev"]}
+   :prod
+   {:env {:db-uri "postgresql://myuser:secret@mydb.server.com:5432/mypgdatabase"}}}
 
   :cljsbuild
   {:builds
@@ -80,7 +82,6 @@
                     :stack-name "64bit Amazon Linux 2016.03 v2.1.6 running Docker 1.11.2"
                     :region "eu-west-1"}}
 
-  :main book-librarj.core
-  :aot [book-librarj.core]
+  :main ^:skip-aot book-librarj.core
   :uberjar-name "book-librarj.jar")
 

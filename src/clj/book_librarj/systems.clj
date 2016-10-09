@@ -16,5 +16,5 @@
                                         :password (env :db-pass)})])
 
 (defsystem prod-system
-           [:web (new-web-server 3000 app)])
-            ;:db (new-postgres-database db-spec)])
+           [:web (new-web-server 3000 app)
+            :db (new-postgres-database {:connection-uri (env :db-uri)})])

@@ -74,7 +74,7 @@
 
   :aws {:access-key "YOUR-ACCESS-KEY"
         :secret-key "YOUR-SECRET-KEY"
-        :beanstalk {:environments [{:name "book-librarj"
+        :beanstalk {:environments [{:name "production"
                                     :cname-prefix "book-librarj"}]
                     :s3-bucket "YOUR-BUILDS-BUCKET-NAME"
                     :stack-name "64bit Amazon Linux 2016.03 v2.1.6 running Docker 1.11.2"

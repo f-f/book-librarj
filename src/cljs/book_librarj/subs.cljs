@@ -32,6 +32,16 @@
     (:books-map db)))
 
 (reg-sub
+  :searchstring
+  (fn [db _]
+    (:searchstring db)))
+
+(reg-sub
+  :search-list
+  (fn [db _]
+    (:search-list db)))
+
+(reg-sub
   :current-book
   :<- [:books-map]
   :<- [:current]

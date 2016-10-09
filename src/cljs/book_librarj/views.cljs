@@ -1,9 +1,18 @@
 (ns book-librarj.views
-    (:require [re-frame.core :refer [subscribe]]
+    (:require [re-frame.core :refer [subscribe dispatch]]
+              [reagent.core :as r]
               [re-com.core :as rc]))
 
 
 ;; home
+
+(defn searchbar []
+  (let [search-text (r/atom "")]
+    (fn []
+      [rc/input-text
+       :placeholder "Search for books..."
+       :model search-text
+       :on-change #(dispatch [:search %])])))
 
 (defn books-list []
   (let [books (subscribe [:books])]
@@ -19,7 +28,27 @@
 (defn home-panel []
   [rc/v-box
    :gap "1em"
-   :children [[books-list]]])
+   :children [[searchbar]
+              [books-list]]])
+
+;; search
+
+(defn search-list []
+  (let [books (subscribe [:search-list])]
+    (fn []
+      [:div.row
+       (for [{:keys [thumbnail id]} @books]
+         ^{:key id}
+         [:div.col-md-3
+          [:a {:href (str "#/book/" id)}
+           [:img.img-thumbnail
+            {:src thumbnail}]]])])))
+
+(defn search-panel []
+  [rc/v-box
+   :gap "1em"
+   :children [[searchbar]
+              [search-list]]])
 
 ;; book details
 
@@ -47,7 +76,7 @@
        [:div.col-md-6 [book-image (:image @current)]]
        [:div.col-md-6 [book-description @current]]])))
 
-(defn about-panel []
+(defn book-panel []
   [rc/v-box
    :gap "1em"
    :children [[link-to-home-page]
@@ -75,10 +104,11 @@
 ;; main
 
 (defmulti  panels identity)
-(defmethod panels :books-list  [] [home-panel])
-(defmethod panels :book-detail [] [about-panel])
-(defmethod panels :error       [] [error-panel])
-(defmethod panels :default     [] [:div "TODO"])
+(defmethod panels :books-list   [] [home-panel])
+(defmethod panels :books-search [] [search-panel])
+(defmethod panels :book-detail  [] [book-panel])
+(defmethod panels :error        [] [error-panel])
+(defmethod panels :default      [] [:div "TODO"])
 
 (defn show-panel
   [panel-name]

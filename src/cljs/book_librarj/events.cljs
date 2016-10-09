@@ -11,11 +11,11 @@
                  :uri             "books"
                  :timeout         8000
                  :response-format (ajax/json-response-format {:keywords? true})
-                 :on-success      [:good-http-result]
+                 :on-success      [:good-init]
                  :on-failure      [:bad-http-result]}}))
 
 (reg-event-fx
-  :good-http-result
+  :good-init
   (fn [{:keys [db]} [_ books]]
     {:db (assoc db :books books
                    :books-map (->> books
@@ -38,3 +38,23 @@
  :set-active-panel
  (fn [db [_ active-panel]]
    (assoc db :active-panel active-panel)))
+
+(reg-event-fx
+  :search
+  (fn [db [_ query]]
+    (if (empty? query)
+      {:db (assoc db :searchstring "")
+       :dispatch [:set-active-panel :books-list]}
+      {:db (assoc db :searchstring query)
+       :http-xhrio {:method          :get
+                    :uri             (str "search/" query)
+                    :timeout         8000
+                    :response-format (ajax/json-response-format {:keywords? true})
+                    :on-success      [:display-search]
+                    :on-failure      [:bad-http-result]}})))
+
+(reg-event-fx
+  :display-search
+  (fn [{:keys [db]} [_ books]]
+    {:db (assoc db :search-list books)
+     :dispatch [:set-active-panel :books-search]}))

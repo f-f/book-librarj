@@ -5,6 +5,7 @@
     [compojure.route :as route]
     [system.repl :refer [system]]
     [clojure.java.jdbc :as j]
+    [ring.util.response :refer [response content-type charset]]
     [ring.middleware.format :refer [wrap-restful-format]]
     [ring.middleware.defaults :refer [wrap-defaults api-defaults]]))
 
@@ -26,14 +27,15 @@
 (defn search
   "Search in the titles for the provided keyword"
   [s]
-  (j/query
-    (:db system)
-    ["SELECT * FROM books WHERE to_tsvector(title) @@ to_tsquery(?);" s]))
+  (->> (j/query
+         (:db system)
+         ["SELECT * FROM books WHERE to_tsvector(title) @@ to_tsquery(?);" s])
+       (map update-image-link)))
 
 (defroutes routes
   (GET "/" [] index)
   (GET "/books" [] get-books)
-  (GET "/search/:s" [s] search)
+  (GET "/search/:query" [query] (-> (search query) response))
   (route/resources "/")
   (route/not-found "404"))
 

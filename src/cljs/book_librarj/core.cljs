@@ -3,7 +3,7 @@
               [re-frame.core :as re-frame]
               [devtools.core :as devtools]
               [day8.re-frame.http-fx]
-              [book-librarj.handlers]
+              [book-librarj.events]
               [book-librarj.subs]
               [book-librarj.routes :as routes]
               [book-librarj.views :as views]

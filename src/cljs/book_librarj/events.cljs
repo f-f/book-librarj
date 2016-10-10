@@ -1,4 +1,4 @@
-(ns book-librarj.handlers
+(ns book-librarj.events
     (:require [re-frame.core :refer [reg-event-db reg-event-fx]]
               [ajax.core :as ajax]
               [book-librarj.db :refer [default-db]]))

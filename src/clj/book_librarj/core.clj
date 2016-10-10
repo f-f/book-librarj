@@ -8,4 +8,5 @@
   "Start a production system."
   [& args]
   (set-init! #'prod-system)
+  (println "Starting Book Librarj...")
   (start))

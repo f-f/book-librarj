@@ -17,4 +17,8 @@
 
 (defsystem prod-system
            [:web (new-web-server 3000 app)
-            :db (new-postgres-database {:connection-uri (env :db-uri)})])
+            :db (new-postgres-database {:dbtype "postgresql"
+                                        :dbname (env :db-name)
+                                        :host (env :db-host)
+                                        :user (env :db-user)
+                                        :password (env :db-pass)})])

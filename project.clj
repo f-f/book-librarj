@@ -45,7 +45,10 @@
     :plugins      [[lein-figwheel "0.5.7"]]
     :source-paths ["src" "dev"]}
    :prod
-   {:env {:db-uri "postgresql://myuser:secret@mydb.server.com:5432/mypgdatabase"}}}
+   {:env {:db-name "booklibrarj"
+          :db-host "127.0.0.1"
+          :db-user "testuser"
+          :db-pass "testpass"}}}
 
   :cljsbuild
   {:builds

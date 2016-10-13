@@ -7,4 +7,3 @@ out
 .lein-repl-history
 .nrepl-port
 *.iml
-.lein-env

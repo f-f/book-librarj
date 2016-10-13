@@ -45,10 +45,7 @@
     :plugins      [[lein-figwheel "0.5.7"]]
     :source-paths ["src" "dev"]}
    :prod
-   {:env {:db-name "booklibrarj"
-          :db-host "127.0.0.1"
-          :db-user "testuser"
-          :db-pass "testpass"}}}
+   {:env {}} ;; Look into the .lein-env file
 
   :cljsbuild
   {:builds

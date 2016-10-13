@@ -71,17 +71,17 @@
         "Dockerrun.aws.json"
         "project.clj"
         ".ebextensions"
+        ".lein-env"
         "src"
         "resources"]
 
-  :aws {:access-key "YOUR-ACCESS-KEY"
-        :secret-key "YOUR-SECRET-KEY"
+  :aws {:access-key ~(System/getenv "AWS_ACCESS_KEY")
+        :secret-key ~(System/getenv "AWS_SECRET_KEY")
         :beanstalk {:environments [{:name "production"
                                     :cname-prefix "book-librarj"}]
-                    :s3-bucket "YOUR-BUILDS-BUCKET-NAME"
+                    :s3-bucket "book-librarj-builds"
                     :stack-name "64bit Amazon Linux 2016.03 v2.1.6 running Docker 1.11.2"
                     :region "eu-west-1"}}
 
   :main ^:skip-aot book-librarj.core
   :uberjar-name "book-librarj.jar")
-

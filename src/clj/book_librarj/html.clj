@@ -25,7 +25,7 @@
           [:div.jumbotron
            [:div.container
             [:h1 "Book Librarj"]
-            [:p "TODO: description"]]]
+            [:p "We have some good books hanging around here, grab and read some!"]]]
           [:div#app.container
            [:div.loading
             [:i.fa.fa-4x.fa-circle-o-notch.fa-spin]]]

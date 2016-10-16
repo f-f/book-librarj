@@ -10,7 +10,7 @@
   (let [search-text (r/atom "")]
     (fn []
       [rc/input-text
-       :placeholder "Search for books..."
+       :placeholder "Search for titles..."
        :model search-text
        :on-change #(dispatch [:search %])])))
 

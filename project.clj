@@ -40,12 +40,13 @@
   {:dev
    {:env {:db-name "booklibrarj"
           :db-host "127.0.0.1"
+          :db-port "5432"
           :db-user "testuser"
           :db-pass "testpass"}
     :plugins      [[lein-figwheel "0.5.7"]]
     :source-paths ["src" "dev"]}
    :prod
-   {:env {}} ;; Look into the .lein-env file
+   {:env {}}} ;; Look into the 'crendentials.sh' file
 
   :cljsbuild
   {:builds
@@ -71,14 +72,18 @@
         "Dockerrun.aws.json"
         "project.clj"
         ".ebextensions"
-        ".lein-env"
         "src"
         "resources"]
 
   :aws {:access-key ~(System/getenv "AWS_ACCESS_KEY")
         :secret-key ~(System/getenv "AWS_SECRET_KEY")
         :beanstalk {:environments [{:name "production"
-                                    :cname-prefix "book-librarj"}]
+                                    :cname-prefix "book-librarj-1"
+                                    :env {"DB_NAME" ~(System/getenv "DB_NAME")
+                                          "DB_HOST" ~(System/getenv "DB_HOST")
+                                          "DB_PORT" ~(System/getenv "DB_PORT")
+                                          "DB_USER" ~(System/getenv "DB_USER")
+                                          "DB_PASS" ~(System/getenv "DB_PASS")}}]
                     :s3-bucket "book-librarj-builds"
                     :stack-name "64bit Amazon Linux 2016.03 v2.1.6 running Docker 1.11.2"
                     :region "eu-west-1"}}

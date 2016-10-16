@@ -1,9 +1,0 @@
-CREATE TABLE books (
- ID serial PRIMARY KEY,
- image VARCHAR (255) NOT NULL,
- title VARCHAR (255) NOT NULL,
- publisher VARCHAR (255)
-);
-
-cat books.csv | psql --host=book-librarj.cvucsauh3hzy.eu-west-1.rds.amazonaws.com --port=5432 --username=ferrai --password --dbname=booklibrarj -c "COPY books FROM stdin DELIMITER ',' CSV;"
-

@@ -1,0 +1,21 @@
+#!/bin/bash
+
+set -e
+
+source credentials.sh
+
+printf "Creating database 'booklibrarj'..."
+
+psql --host=$DB_HOST --port $DB_PORT --username=$DB_USER -c "CREATE DATABASE $DB_NAME"
+
+printf "OK\n"
+printf "Creating 'books' table..."
+
+psql --host=$DB_HOST --port $DB_PORT --username=$DB_USER --dbname=$DB_NAME -c "CREATE TABLE books (id serial PRIMARY KEY, image VARCHAR (255) NOT NULL, title VARCHAR (255) NOT NULL, publisher VARCHAR (255));"
+
+printf "OK\n"
+printf "Importing csv data in it..."
+
+cat books.csv | psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER --dbname=$DB_NAME -c "COPY books FROM stdin DELIMITER ',' CSV;"
+
+printf "OK\n"

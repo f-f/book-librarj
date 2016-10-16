@@ -1,9 +1,11 @@
 #!/bin/bash
 
 export PGPASSWORD=testpass
-export BL_USER=testuser
-export BL_HOST=127.0.0.1
-export BL_PORT=5432
+export DB_NAME=booklibrarj
+export DB_HOST=127.0.0.1
+export DB_PORT=5432
+export DB_USER=testuser
+export DB_PASS=$PGPASSWORD
 
-export AWS_ACCESS_KEY=
-export AWS_SECRET_KEY=
+export AWS_ACCESS_KEY=YOUR_KEY_XXXX
+export AWS_SECRET_KEY=YOUR_SECRET_XXXXXXXXXXXXXXXXXXX

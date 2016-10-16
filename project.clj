@@ -14,7 +14,6 @@
                  [ring-middleware-format "0.7.0"]
                  [org.clojure/java.jdbc "0.6.2-alpha3"]
                  [org.postgresql/postgresql "9.4.1211"]
-                 [figwheel-sidecar "0.5.7"]
                  [cljs-ajax "0.5.8"]
                  [day8.re-frame/http-fx "0.0.4"]
                  [http-kit "2.2.0"]
@@ -23,7 +22,6 @@
                  [ring "1.4.0"]]
 
   :plugins [[lein-cljsbuild "1.1.4"]
-            [lein-figwheel "0.5.7"]
             [lein-environ "1.1.0"]
             [juxt/lein-dockerstalk "0.1.0"]
             [lein-zip "0.1.1"]]
@@ -43,7 +41,8 @@
           :db-port "5432"
           :db-user "testuser"
           :db-pass "testpass"}
-    :plugins      [[lein-figwheel "0.5.7"]]
+    :plugins      [[lein-figwheel "0.5.8"]]
+    :dependencies [[figwheel-sidecar "0.5.8"]]
     :source-paths ["src" "dev"]}
    :prod
    {:env {}}} ;; Look into the 'crendentials.sh' file

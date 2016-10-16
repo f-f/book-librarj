@@ -1,3 +1,5 @@
+![Book Librarj Screenshot](resources/public/screenshot.png)
+
 # Book Librarj
 
 AWS S3 bucket

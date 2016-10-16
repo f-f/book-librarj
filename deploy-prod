@@ -1,0 +1,5 @@
+#!/bin/bash
+
+source credentials.sh
+lein do clean, cljsbuild once min
+lein with-profile prod run

@@ -1,3 +1,4 @@
 #!/bin/bash
 
+source credentials.sh
 lein zip && lein dockerstalk deploy production target/book-librarj-0.1.0-SNAPSHOT.zip

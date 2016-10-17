@@ -2,7 +2,7 @@
 
 set -e
 
-source credentials.sh
+source ../credentials.sh
 
 printf "Creating database 'booklibrarj'..."
 

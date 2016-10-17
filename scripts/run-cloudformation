@@ -1,0 +1,15 @@
+#!/bin/bash
+
+source credentials.sh
+
+stack=$STACK_NAME
+username=$DB_USER
+password=$DB_PASS
+
+echo "Starting to run CloudFormation template"
+
+aws cloudformation validate-template --template-body file://scripts/create_rds_db.json
+
+STACK_ID=$(aws cloudformation create-stack --stack-name $stack --template-body file://create_rds_db.json --parameters ParameterKey=DBUser,ParameterValue=$username ParameterKey=DBPassword,ParameterValue=$password | jq '.StackId')
+
+echo "Creating RDS Postgres database in AWS..."

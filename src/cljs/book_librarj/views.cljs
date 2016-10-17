@@ -10,6 +10,8 @@
   (let [search-text (r/atom "")]
     (fn []
       [rc/input-text
+       :width "100%"
+       :class "search-bar"
        :placeholder "Search for titles..."
        :model search-text
        :on-change #(dispatch [:search %])])))

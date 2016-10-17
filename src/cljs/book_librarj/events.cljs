@@ -1,7 +1,18 @@
 (ns book-librarj.events
-    (:require [re-frame.core :refer [reg-event-db reg-event-fx]]
+    (:require [re-frame.core :refer [reg-event-db reg-event-fx dispatch reg-fx]]
               [ajax.core :as ajax]
               [book-librarj.db :refer [default-db]]))
+
+(defonce timeouts (atom {}))
+
+(reg-fx :dispatch-debounce
+        (fn [[id event-vec n]]
+          (js/clearTimeout (@timeouts id))
+          (swap! timeouts assoc id
+                 (js/setTimeout (fn []
+                                  (dispatch event-vec)
+                                  (swap! timeouts dissoc id))
+                                n))))
 
 (reg-event-fx
  :initialize-db
@@ -46,15 +57,22 @@
     (assoc db :loading? val)))
 
 (reg-event-fx
+  :search-debounced
+  (fn [_ [_ searchstring]]
+    {:dispatch-debounce [::search [:search searchstring] 500]}))
+
+(reg-event-fx
   :search
-  (fn [db [_ query]]
+  (fn [{:keys [db]} [_ query]]
     (if (empty? query)
-      {:db (assoc db :searchstring "")
-       :dispatch [:set-active-panel :books-list]}
-      {:db (assoc db :searchstring query)
+      {:db (assoc db :searchstring ""
+                     :searching?   false)}
+      {:db (assoc db :searchstring query
+                     :loading?     true)
        :http-xhrio {:method          :get
-                    :uri             (str "search/" query)
+                    :uri             "search"
                     :timeout         8000
+                    :params          {:q query}
                     :response-format (ajax/json-response-format {:keywords? true})
                     :on-success      [:display-search]
                     :on-failure      [:bad-http-result]}})))
@@ -62,5 +80,6 @@
 (reg-event-fx
   :display-search
   (fn [{:keys [db]} [_ books]]
-    {:db (assoc db :search-list books)
-     :dispatch [:set-active-panel :books-search]}))
+    {:db (assoc db :search-list books
+                   :searching?  true
+                   :loading?    false)}))

@@ -2,6 +2,7 @@
 
 (def default-db
   {:loading?     true
+   :searching?   false
    :error-text?  ""
    :books        []
    :books-map    {}

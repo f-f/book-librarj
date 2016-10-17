@@ -35,7 +35,7 @@
 (defroutes routes
   (GET "/" [] index)
   (GET "/books" [] get-books)
-  (GET "/search/:query" [query] (-> (search query) response))
+  (GET "/search" [q] (-> (search q) response))
   (route/resources "/")
   (route/not-found "404"))
 

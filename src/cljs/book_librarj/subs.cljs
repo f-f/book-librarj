@@ -7,6 +7,11 @@
     (:loading? db)))
 
 (reg-sub
+  :searching?
+  (fn [db _]
+    (:searching? db)))
+
+(reg-sub
  :name
  (fn [db]
    (:name db)))

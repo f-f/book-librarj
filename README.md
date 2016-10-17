@@ -34,4 +34,5 @@ No technology was harmed during the hackathon. However, we got to play with lots
 1. Create the RDS database with `./scripts/run-cloudformation`
 2. Wait until it's created. Then get its coordinates with `./scripts/read-cloudformation`
 3. Put this data and some ElasticBeanstalk-enabled IAM credentials in `credentials.sh`
-4. Run the service on ElasticBeanstalk with `./scripts/deploy-aws`
+4. Insert data into RDS instance by running `./scripts/migrate`
+5. Run the service on ElasticBeanstalk with `./scripts/deploy-aws`

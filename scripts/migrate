@@ -16,6 +16,6 @@ psql --host=$DB_HOST --port $DB_PORT --username=$DB_USER --dbname=$DB_NAME -c "C
 printf "OK\n"
 printf "Importing csv data in it..."
 
-cat books.csv | psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER --dbname=$DB_NAME -c "COPY books FROM stdin DELIMITER ',' CSV;"
+cat ../books.csv | psql --host=$DB_HOST --port=$DB_PORT --username=$DB_USER --dbname=$DB_NAME -c "COPY books FROM stdin DELIMITER ',' CSV;"
 
 printf "OK\n"

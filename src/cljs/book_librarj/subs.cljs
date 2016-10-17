@@ -2,6 +2,11 @@
     (:require [re-frame.core :refer [reg-sub]]))
 
 (reg-sub
+  :loading?
+  (fn [db _]
+    (:loading? db)))
+
+(reg-sub
  :name
  (fn [db]
    (:name db)))

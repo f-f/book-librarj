@@ -21,7 +21,8 @@
                    :books-map (->> books
                                    (mapcat #(list (str (:id %)) %))
                                    (apply hash-map)))
-     :dispatch [:set-active-panel :books-list]}))
+     :dispatch-n [[:set-active-panel :books-list]
+                  [:set-loading false]]}))
 
 (reg-event-fx
   :bad-http-result
@@ -38,6 +39,11 @@
  :set-active-panel
  (fn [db [_ active-panel]]
    (assoc db :active-panel active-panel)))
+
+(reg-event-db
+  :set-loading
+  (fn [db [_ val]]
+    (assoc db :loading? val)))
 
 (reg-event-fx
   :search

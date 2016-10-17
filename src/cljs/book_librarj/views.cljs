@@ -3,6 +3,11 @@
               [reagent.core :as r]
               [re-com.core :as rc]))
 
+;; loading
+
+(defn loading []
+  [:div.loading
+   [:i.fa.fa-4x.fa-circle-o-notch.fa-spin]])
 
 ;; home
 
@@ -28,10 +33,14 @@
             {:src thumbnail}]]])])))
 
 (defn home-panel []
-  [rc/v-box
-   :gap "1em"
-   :children [[searchbar]
-              [books-list]]])
+  (let [loading? (subscribe [:loading?])]
+    (fn []
+      [rc/v-box
+       :gap "1em"
+       :children [[searchbar]
+                  (if @loading?
+                    [loading]
+                    [books-list])]])))
 
 ;; search
 
@@ -47,10 +56,14 @@
             {:src thumbnail}]]])])))
 
 (defn search-panel []
-  [rc/v-box
-   :gap "1em"
-   :children [[searchbar]
-              [search-list]]])
+  (let [loading? (subscribe [:loading?])]
+    (fn []
+      [rc/v-box
+       :gap "1em"
+       :children [[searchbar]
+                  (if @loading?
+                    [loading]
+                    [search-list])]])))
 
 ;; book details
 
@@ -110,11 +123,7 @@
 (defmethod panels :books-search [] [search-panel])
 (defmethod panels :book-detail  [] [book-panel])
 (defmethod panels :error        [] [error-panel])
-(defmethod panels :default      [] [:div "TODO"])
-
-(defn show-panel
-  [panel-name]
-  [panels panel-name])
+(defmethod panels :default      [] [loading])
 
 (defn main-panel []
   (let [active-panel (subscribe [:active-panel])]

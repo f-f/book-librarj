@@ -1,12 +1,12 @@
 {
-  "AWSTemplateFormatVersion" : "2010-09-09",
+  "AWSTemplateFormatVersion" : "2016-10-18",
 
   "Description" : "PostgreSQL RDS Template",
 
   "Parameters": {
     "DBName": {
-      "Default": "booklibrarj2",
-      "Description" : "Clojure Hackathon DB",
+      "Default": "booklibrarjdb",
+      "Description" : "Book Librarj Database",
       "Type": "String",
       "MinLength": "1",
       "MaxLength": "64",

@@ -1,5 +1,5 @@
 {
-  "AWSTemplateFormatVersion" : "2016-10-18",
+  "AWSTemplateFormatVersion" : "2010-09-09",
 
   "Description" : "PostgreSQL RDS Template",
 
